@@ -24,7 +24,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "",
+        "description": "Register a new user account",
         "parameters": [
           {
             "name": "body",
@@ -63,7 +63,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "",
+        "description": "Login user and return token",
         "parameters": [
           {
             "name": "body",
@@ -105,7 +105,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "",
+        "description": "Send OTP/reset link to email",
         "parameters": [
           {
             "name": "body",
@@ -138,7 +138,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "",
+        "description": "Verify OTP for password reset",
         "parameters": [
           {
             "name": "body",
@@ -177,7 +177,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "",
+        "description": "Set new password",
         "parameters": [
           {
             "name": "body",
@@ -219,7 +219,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "",
+        "description": "Get all books",
         "parameters": [
           {
             "name": "authorization",
@@ -249,7 +249,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "",
+        "description": "Add a new book",
         "parameters": [
           {
             "name": "authorization",
@@ -308,7 +308,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "",
+        "description": "Search books by keyword/filter",
         "parameters": [
           {
             "name": "authorization",
@@ -342,7 +342,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "",
+        "description": "Get single book details",
         "parameters": [
           {
             "name": "id",
@@ -381,7 +381,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "",
+        "description": "Update book info",
         "parameters": [
           {
             "name": "id",
@@ -444,7 +444,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "",
+        "description": "Delete a book",
         "parameters": [
           {
             "name": "id",
@@ -482,7 +482,7 @@
         "tags": [
           "Borrow APIs"
         ],
-        "description": "",
+        "description": "Borrow a book",
         "parameters": [
           {
             "name": "authorization",
@@ -535,7 +535,7 @@
         "tags": [
           "Borrow APIs"
         ],
-        "description": "",
+        "description": "Return borrowed book",
         "parameters": [
           {
             "name": "id",
@@ -576,7 +576,7 @@
         "tags": [
           "Student APIs"
         ],
-        "description": "",
+        "description": "Get all students",
         "parameters": [
           {
             "name": "authorization",
@@ -608,7 +608,7 @@
         "tags": [
           "Student APIs"
         ],
-        "description": "",
+        "description": "Get student details",
         "parameters": [
           {
             "name": "id",
@@ -644,7 +644,7 @@
         "tags": [
           "Student APIs"
         ],
-        "description": "",
+        "description": "Remove student",
         "parameters": [
           {
             "name": "id",
@@ -682,7 +682,7 @@
         "tags": [
           "Fine APIs"
         ],
-        "description": "",
+        "description": "Get all fines",
         "parameters": [
           {
             "name": "authorization",
@@ -711,7 +711,7 @@
         "tags": [
           "Fine APIs"
         ],
-        "description": "",
+        "description": "Get logged-in user fines",
         "parameters": [
           {
             "name": "authorization",
@@ -740,7 +740,7 @@
         "tags": [
           "Fine APIs"
         ],
-        "description": "",
+        "description": "Mark fine as paid",
         "parameters": [
           {
             "name": "id",
@@ -781,7 +781,7 @@
         "tags": [
           "Role APIs"
         ],
-        "description": "",
+        "description": "Get all roles",
         "parameters": [
           {
             "name": "authorization",
@@ -810,7 +810,7 @@
         "tags": [
           "Role APIs"
         ],
-        "description": "",
+        "description": "Assign role to user",
         "parameters": [
           {
             "name": "authorization",
@@ -860,7 +860,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "",
+        "description": "Reserve a book",
         "parameters": [
           {
             "name": "authorization",
@@ -905,7 +905,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "",
+        "description": "Get all reservations",
         "parameters": [
           {
             "name": "authorization",
@@ -934,7 +934,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "",
+        "description": "Get user reservations",
         "parameters": [
           {
             "name": "authorization",
@@ -963,7 +963,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "",
+        "description": "Cancel reservation",
         "parameters": [
           {
             "name": "id",
@@ -1004,7 +1004,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "",
+        "description": "Fulfill reservation",
         "parameters": [
           {
             "name": "id",
@@ -1045,7 +1045,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "",
+        "description": "Add book review",
         "parameters": [
           {
             "name": "authorization",
@@ -1095,7 +1095,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "",
+        "description": "Get reviews for a book",
         "parameters": [
           {
             "name": "book_id",
@@ -1130,7 +1130,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "",
+        "description": "Get user reviews",
         "parameters": [
           {
             "name": "authorization",
@@ -1159,7 +1159,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "",
+        "description": "Update review",
         "parameters": [
           {
             "name": "id",
@@ -1213,7 +1213,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "",
+        "description": "Delete review",
         "parameters": [
           {
             "name": "id",
@@ -1251,7 +1251,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "",
+        "description": "Get all categories",
         "parameters": [
           {
             "name": "authorization",
@@ -1278,7 +1278,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "",
+        "description": "Create category",
         "parameters": [
           {
             "name": "authorization",
@@ -1325,7 +1325,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "",
+        "description": "Get category details",
         "parameters": [
           {
             "name": "id",
@@ -1361,7 +1361,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "",
+        "description": "Update category",
         "parameters": [
           {
             "name": "id",
@@ -1412,7 +1412,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "",
+        "description": "Delete category",
         "parameters": [
           {
             "name": "id",
