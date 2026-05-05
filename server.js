@@ -1,7 +1,8 @@
-const express = require('express')
-const bodyparser = require('body-parser')
-const db = require('./models')
-require('dotenv').config()
+const express = require('express');
+const bodyparser = require('body-parser');
+const db = require('./models');
+require('dotenv').config();
+require('./utils/cronJobs.js');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
 
@@ -17,7 +18,7 @@ app.use('/api/fine', require('./routes/fine.routes.js'));
 app.use('/api/roles', require('./routes/role.routes.js'));
 app.use('/api/reservations', require('./routes/reservation.routes.js'));
 app.use('/api/reviews', require('./routes/review.routes.js'));
-app.use('/api/categories', require('./routes/categories.routes.js'));  
+app.use('/api/categories', require('./routes/categories.routes.js'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
