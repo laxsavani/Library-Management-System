@@ -1,4 +1,5 @@
 const { User, BorrowRecord, Book, Fine, RoleData, Role } = require('../models');
+const { Op } = require('sequelize');
 
 const getAllStudents = async (req, res) => {
     const studentRole = await Role.findOne({ where: { role_name: 'student' } });
@@ -116,8 +117,47 @@ const deleteStudent = async (req, res) => {
     }
 }
 
+const getStudentEligibility = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const student = await User.findByPk(id);
+        if (!student) {
+            return res.status(404).json({ success: false, message: "Student not found" });
+        }
+
+        const overdueCount = await BorrowRecord.count({
+            where: {
+                student_id: id,
+                status: 'borrowed',
+                due_date: { [Op.lt]: new Date() }
+            }
+        });
+
+        const unpaidFines = await Fine.sum('amount', {
+            where: {
+                student_id: id,
+                status: 'unpaid'
+            }
+        }) || 0;
+
+        const isEligible = overdueCount === 0 && unpaidFines < 100; // Example threshold
+
+        return res.status(200).json({
+            success: true,
+            isEligible,
+            details: {
+                overdueBooks: overdueCount,
+                unpaidFineTotal: unpaidFines
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+}
+
 module.exports = {
     getAllStudents,
     getStudentById,
-    deleteStudent
+    deleteStudent,
+    getStudentEligibility
 };

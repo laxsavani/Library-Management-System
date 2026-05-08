@@ -1,5 +1,6 @@
 const { Fine, BorrowRecord, User, Book } = require('../models');
 const { sendFinePaidEmail } = require('../utils/sendMail');
+const { Op, fn, col } = require('sequelize');
 
 const getAllFines = async (req, res) => {
     try {
@@ -100,8 +101,40 @@ const markFinePaid = async (req, res) => {
     }
 }
 
+const getMyTotalUnpaidFine = async (req, res) => {
+    try {
+        const total = await Fine.sum('amount', {
+            where: { student_id: req.user.id, status: 'unpaid' }
+        }) || 0;
+        res.status(200).json({ success: true, total });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const getAdminDebtors = async (req, res) => {
+    try {
+        const threshold = req.query.threshold || 0;
+        const debtors = await Fine.findAll({
+            attributes: [
+                'student_id',
+                [fn('SUM', col('amount')), 'total_debt']
+            ],
+            where: { status: 'unpaid' },
+            include: [{ model: User, as: 'student', attributes: ['id', 'name', 'email'] }],
+            group: ['student_id', 'student.id'],
+            having: { total_debt: { [Op.gt]: threshold } }
+        });
+        res.status(200).json({ success: true, debtors });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
 module.exports = {
     getAllFines,
     getMyFines,
-    markFinePaid
+    markFinePaid,
+    getMyTotalUnpaidFine,
+    getAdminDebtors
 }

@@ -10,6 +10,8 @@ routes.use((req, res, next) => {
 
 routes.get('/', auth, rbac(['admin', 'librarian']), c.getAllFines);
 routes.get('/my', auth, rbac(['student']), c.getMyFines);
+routes.get('/my-total', auth, rbac(['student']), c.getMyTotalUnpaidFine);
+routes.get('/debtors', auth, rbac(['admin']), c.getAdminDebtors);
 routes.put('/mark-paid/:id', auth, rbac(['admin', 'librarian']), c.markFinePaid);
 
 module.exports = routes;

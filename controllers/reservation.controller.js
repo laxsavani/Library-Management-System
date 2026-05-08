@@ -1,6 +1,7 @@
 const { where } = require('sequelize');
 const { Reservation, Book, User } = require('../models');
 const { sendReservationConfirmation, sendReservationCancelledEmail } = require('../utils/sendMail');
+const { Op, fn, col } = require('sequelize');
 
 const createReservation = async (req, res) => {
     try {
@@ -220,10 +221,58 @@ const fulfilReservation = async (req, res) => {
     }
 }
 
+const getQueuePosition = async (req, res) => {
+    try {
+        const { book_id } = req.params;
+        const student_id = req.user.id;
+
+        const myReservation = await Reservation.findOne({
+            where: { book_id, student_id, status: 'pending' }
+        });
+
+        if (!myReservation) {
+            return res.status(404).json({ success: false, message: "No pending reservation found" });
+        }
+
+        const position = await Reservation.count({
+            where: {
+                book_id,
+                status: 'pending',
+                reserved_at: { [Op.lt]: myReservation.reserved_at }
+            }
+        });
+
+        res.status(200).json({ success: true, position: position + 1 });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const getHighDemandBooks = async (req, res) => {
+    try {
+        const demands = await Reservation.findAll({
+            attributes: [
+                'book_id',
+                [fn('COUNT', col('id')), 'reservation_count']
+            ],
+            where: { status: 'pending' },
+            include: [{ model: Book, as: 'book', attributes: ['id', 'title'] }],
+            group: ['book_id', 'book.id'],
+            order: [[fn('COUNT', col('id')), 'DESC']],
+            limit: 10
+        });
+        res.status(200).json({ success: true, demands });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
 module.exports = {
     createReservation,
     getAllReservations,
     getMyReservations,
     cancelReservation,
-    fulfilReservation
+    fulfilReservation,
+    getQueuePosition,
+    getHighDemandBooks
 }

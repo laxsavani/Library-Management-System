@@ -11,6 +11,8 @@ routes.use((req, res, next) => {
 routes.post('/', auth, rbac(['student']), c.createReservation);
 routes.get('/', auth, rbac(['admin', 'librarian']), c.getAllReservations);
 routes.get('/my', auth, rbac(['student']), c.getMyReservations);
+routes.get('/position/:book_id', auth, rbac(['student']), c.getQueuePosition);
+routes.get('/high-demand', auth, rbac(['admin']), c.getHighDemandBooks);
 routes.put('/cancel/:id', auth, rbac(['admin', 'librarian', 'student']), c.cancelReservation);
 routes.put('/fulfil/:id', auth, rbac(['admin', 'librarian']), c.fulfilReservation);
 

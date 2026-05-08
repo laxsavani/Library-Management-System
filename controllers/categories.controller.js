@@ -1,4 +1,5 @@
-const { Category, Book } = require('../models');
+const { Category, Book, BorrowRecord } = require('../models');
+const { Op, fn, col } = require('sequelize');
 
 const getAllCategories = async (req, res) => {
     const categories = await Category.findAll({ order: [['name', 'ASC']] });
@@ -136,16 +137,54 @@ const deleteCategory = async (req, res) => {
         await category.destroy();
 
         return res.status(200).json({
-            status: true,
-            message: 'Category deleted successfully ✅',
-            data: category
-        })
-
+            success: true,
+            message: "Category Deleted Successfully"
+        });
     } catch (error) {
         return res.status(500).json({
-            status: false,
-            message: error.message
-        })
+            success: false,
+            message: "Error Deleting Category",
+            error: error.message
+        });
+    }
+}
+
+const getCategoryDistribution = async (req, res) => {
+    try {
+        const stats = await Category.findAll({
+            attributes: [
+                'id', 'name',
+                [fn('COUNT', col('books.id')), 'bookCount']
+            ],
+            include: [{ model: Book, as: 'books', attributes: [] }],
+            group: ['Category.id'],
+        });
+        res.status(200).json({ success: true, stats });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const getMostBorrowedCategories = async (req, res) => {
+    try {
+        const stats = await Category.findAll({
+            attributes: [
+                'id', 'name',
+                [fn('COUNT', col('books->borrowRecords.id')), 'borrowCount']
+            ],
+            include: [{
+                model: Book,
+                as: 'books',
+                attributes: [],
+                include: [{ model: BorrowRecord, as: 'borrowRecords', attributes: [] }]
+            }],
+            group: ['Category.id'],
+            order: [[fn('COUNT', col('books->borrowRecords.id')), 'DESC']],
+            limit: 5
+        });
+        res.status(200).json({ success: true, stats });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 
@@ -154,5 +193,7 @@ module.exports = {
     getCategoryById,
     createCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getCategoryDistribution,
+    getMostBorrowedCategories
 }

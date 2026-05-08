@@ -9,6 +9,9 @@ routes.use((req, res, next) => {
 });
 
 routes.post('/', auth, rbac(['student']), c.submitReview);
+routes.get('/latest', auth, rbac(['admin', 'librarian', 'student']), c.getLatestReviews);
+routes.get('/summary/:book_id', auth, rbac(['admin', 'librarian', 'student']), c.getReviewSummary);
+routes.get('/status/:book_id', auth, rbac(['student']), c.getReviewStatus);
 routes.get('/book/:book_id', auth, rbac(['admin', 'librarian', 'student']), c.getReviewsByBook);
 routes.get('/my', auth, rbac(['student']), c.getMyReviews);
 routes.put('/:id', auth, rbac(['student']), c.updateReview);

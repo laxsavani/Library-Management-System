@@ -9,6 +9,8 @@ routes.use((req, res, next) => {
 });
 
 routes.get('/', auth, rbac(['admin', 'librarian', 'student']), c.getAllCategories);
+routes.get('/distribution', auth, rbac(['admin', 'librarian']), c.getCategoryDistribution);
+routes.get('/popular', auth, rbac(['admin', 'librarian', 'student']), c.getMostBorrowedCategories);
 routes.get('/:id', auth, rbac(['admin', 'librarian', 'student']), c.getCategoryById);
 routes.post('/', auth, rbac(['admin', 'librarian']), c.createCategory);
 routes.put('/:id', auth, rbac(['admin', 'librarian']), c.updateCategory);

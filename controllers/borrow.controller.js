@@ -1,6 +1,7 @@
-const { BorrowRecord, Book, User, Fine, Reservation } = require('../models');
+const { BorrowRecord, Book, User, Fine, Reservation, Category } = require('../models');
 const { calculateFine } = require('../utils/fineCalculator');
 const { sendBorrowConfirmation, sendReturnConfirmation, sendFineCreatedEmail, sendBookAvailableEmail } = require('../utils/sendMail');
+const { Op, fn, col } = require('sequelize');
 
 const borrowBook = async (req, res) => {
     try {
@@ -133,7 +134,68 @@ const returnBook = async (req, res) => {
     }
 }
 
+const getMyActiveBorrows = async (req, res) => {
+    try {
+        const records = await BorrowRecord.findAll({
+            where: { student_id: req.user.id, status: 'borrowed' },
+            include: [{ model: Book, as: 'book', attributes: ['id', 'title', 'author'] }]
+        });
+        res.status(200).json({ success: true, records });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const getMyBorrowHistory = async (req, res) => {
+    try {
+        const records = await BorrowRecord.findAll({
+            where: { student_id: req.user.id },
+            include: [{ model: Book, as: 'book', attributes: ['id', 'title', 'author'] }],
+            order: [['createdAt', 'DESC']]
+        });
+        res.status(200).json({ success: true, records });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const getAllOverdueBooks = async (req, res) => {
+    try {
+        const records = await BorrowRecord.findAll({
+            where: { status: 'borrowed', due_date: { [Op.lt]: new Date() } },
+            include: [
+                { model: Book, as: 'book', attributes: ['id', 'title'] },
+                { model: User, as: 'student', attributes: ['id', 'name', 'email'] }
+            ]
+        });
+        res.status(200).json({ success: true, records });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const getBorrowStats = async (req, res) => {
+    try {
+        const stats = await BorrowRecord.findAll({
+            attributes: [
+                [fn('strftime', '%Y-%m', col('createdAt')), 'month'],
+                [fn('count', col('id')), 'count']
+            ],
+            group: ['month'],
+            order: [['month', 'DESC']],
+            limit: 12
+        });
+        res.status(200).json({ success: true, stats });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
 module.exports = {
     borrowBook,
-    returnBook
+    returnBook,
+    getMyActiveBorrows,
+    getMyBorrowHistory,
+    getAllOverdueBooks,
+    getBorrowStats
 }

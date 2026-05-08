@@ -1,4 +1,5 @@
 const { Review, BorrowRecord, User, Book } = require('../models');
+const { Op, fn, col } = require('sequelize');
 
 const submitReview = async (req, res) => {
     try {
@@ -173,8 +174,54 @@ const deleteReview = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: error.message
-        })
+            message: "Error deleting review",
+            error: error.message
+        });
+    }
+}
+
+const getReviewSummary = async (req, res) => {
+    try {
+        const book_id = req.params.book_id;
+        const summary = await Review.findOne({
+            where: { book_id },
+            attributes: [
+                [fn('AVG', col('rating')), 'avgRating'],
+                [fn('COUNT', col('id')), 'totalReviews']
+            ],
+            raw: true
+        });
+        res.status(200).json({ success: true, summary });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const getLatestReviews = async (req, res) => {
+    try {
+        const reviews = await Review.findAll({
+            limit: 10,
+            order: [['createdAt', 'DESC']],
+            include: [
+                { model: Book, as: 'book', attributes: ['id', 'title'] },
+                { model: User, as: 'student', attributes: ['id', 'name'] }
+            ]
+        });
+        res.status(200).json({ success: true, reviews });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
+const getReviewStatus = async (req, res) => {
+    try {
+        const { book_id } = req.params;
+        const review = await Review.findOne({
+            where: { book_id, student_id: req.user.id }
+        });
+        res.status(200).json({ success: true, hasReviewed: !!review });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 
@@ -183,5 +230,8 @@ module.exports = {
     getReviewsByBook,
     getMyReviews,
     updateReview,
-    deleteReview
+    deleteReview,
+    getReviewSummary,
+    getLatestReviews,
+    getReviewStatus
 }
