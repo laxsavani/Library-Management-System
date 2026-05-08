@@ -24,7 +24,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "Register a new user account",
+        "description": "",
         "parameters": [
           {
             "name": "body",
@@ -63,7 +63,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "Login user and return token",
+        "description": "",
         "parameters": [
           {
             "name": "body",
@@ -105,7 +105,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "Send OTP/reset link to email",
+        "description": "",
         "parameters": [
           {
             "name": "body",
@@ -138,7 +138,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "Verify OTP for password reset",
+        "description": "",
         "parameters": [
           {
             "name": "body",
@@ -177,7 +177,7 @@
         "tags": [
           "Auth APIs"
         ],
-        "description": "Set new password",
+        "description": "",
         "parameters": [
           {
             "name": "body",
@@ -214,12 +214,85 @@
         }
       }
     },
+    "/api/auth/me": {
+      "get": {
+        "tags": [
+          "Auth APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/auth/profile": {
+      "put": {
+        "tags": [
+          "Auth APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/books/": {
       "get": {
         "tags": [
           "Books APIs"
         ],
-        "description": "Get all books",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -249,7 +322,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "Add a new book",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -308,7 +381,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "Search books by keyword/filter",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -342,7 +415,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "Get single book details",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -381,7 +454,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "Update book info",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -444,7 +517,7 @@
         "tags": [
           "Books APIs"
         ],
-        "description": "Delete a book",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -482,7 +555,7 @@
         "tags": [
           "Borrow APIs"
         ],
-        "description": "Borrow a book",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -535,7 +608,7 @@
         "tags": [
           "Borrow APIs"
         ],
-        "description": "Return borrowed book",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -571,13 +644,167 @@
         }
       }
     },
+    "/api/borrow/my-active": {
+      "get": {
+        "tags": [
+          "Borrow APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/borrow/my-history": {
+      "get": {
+        "tags": [
+          "Borrow APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/borrow/overdue": {
+      "get": {
+        "tags": [
+          "Borrow APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/borrow/stats": {
+      "get": {
+        "tags": [
+          "Borrow APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/students/": {
       "get": {
         "tags": [
           "Student APIs"
         ],
-        "description": "Get all students",
+        "description": "",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/students/eligibility/{id}": {
+      "get": {
+        "tags": [
+          "Student APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -608,7 +835,7 @@
         "tags": [
           "Student APIs"
         ],
-        "description": "Get student details",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -644,7 +871,7 @@
         "tags": [
           "Student APIs"
         ],
-        "description": "Remove student",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -682,7 +909,7 @@
         "tags": [
           "Fine APIs"
         ],
-        "description": "Get all fines",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -711,11 +938,74 @@
         "tags": [
           "Fine APIs"
         ],
-        "description": "Get logged-in user fines",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/fine/my-total": {
+      "get": {
+        "tags": [
+          "Fine APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/fine/debtors": {
+      "get": {
+        "tags": [
+          "Fine APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "threshold",
+            "in": "query",
             "type": "string"
           }
         ],
@@ -740,7 +1030,7 @@
         "tags": [
           "Fine APIs"
         ],
-        "description": "Mark fine as paid",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -781,7 +1071,7 @@
         "tags": [
           "Role APIs"
         ],
-        "description": "Get all roles",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -810,7 +1100,7 @@
         "tags": [
           "Role APIs"
         ],
-        "description": "Assign role to user",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -860,7 +1150,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "Reserve a book",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -905,7 +1195,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "Get all reservations",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -934,7 +1224,74 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "Get user reservations",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/reservations/position/{book_id}": {
+      "get": {
+        "tags": [
+          "Reservation APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/reservations/high-demand": {
+      "get": {
+        "tags": [
+          "Reservation APIs"
+        ],
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -963,7 +1320,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "Cancel reservation",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -1004,7 +1361,7 @@
         "tags": [
           "Reservation APIs"
         ],
-        "description": "Fulfill reservation",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -1045,7 +1402,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "Add book review",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -1090,12 +1447,111 @@
         }
       }
     },
+    "/api/reviews/latest": {
+      "get": {
+        "tags": [
+          "Review APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/reviews/summary/{book_id}": {
+      "get": {
+        "tags": [
+          "Review APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/reviews/status/{book_id}": {
+      "get": {
+        "tags": [
+          "Review APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/reviews/book/{book_id}": {
       "get": {
         "tags": [
           "Review APIs"
         ],
-        "description": "Get reviews for a book",
+        "description": "",
         "parameters": [
           {
             "name": "book_id",
@@ -1130,7 +1586,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "Get user reviews",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -1159,7 +1615,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "Update review",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -1213,7 +1669,7 @@
         "tags": [
           "Review APIs"
         ],
-        "description": "Delete review",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -1251,7 +1707,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "Get all categories",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -1278,7 +1734,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "Create category",
+        "description": "",
         "parameters": [
           {
             "name": "authorization",
@@ -1320,12 +1776,70 @@
         }
       }
     },
+    "/api/categories/distribution": {
+      "get": {
+        "tags": [
+          "Categories APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/categories/popular": {
+      "get": {
+        "tags": [
+          "Categories APIs"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/categories/{id}": {
       "get": {
         "tags": [
           "Categories APIs"
         ],
-        "description": "Get category details",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -1361,7 +1875,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "Update category",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -1412,7 +1926,7 @@
         "tags": [
           "Categories APIs"
         ],
-        "description": "Delete category",
+        "description": "",
         "parameters": [
           {
             "name": "id",
